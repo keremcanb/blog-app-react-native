@@ -1,8 +1,8 @@
 import createDataContext from './createDataContext';
-import { call } from 'react-native-reanimated';
 
 const blogReducer = (state, action) => {
   switch (action.type) {
+
     case 'add_blogpost':
       return [
         ...state,
@@ -33,24 +33,24 @@ const addBlogPost = (dispatch) => {
   };
 };
 
+const editBlogPost = (dispatch) => {
+  return (id, title, content, callback) => {
+    dispatch({
+      type: 'edit_blogpost',
+      payload: { id, title, content },
+    });
+    callback();
+  };
+};
+
 const deleteBlogPost = (dispatch) => {
   return (id) => {
     dispatch({ type: 'delete_blogpost', payload: id });
   };
 };
 
-const editBlogPost = (dispatch) => {
-  return (id, title, content, callback) => {
-    dispatch({
-      type: 'edit_blogpost',
-      payload: { id, title, content }
-    });
-    callback();
-  };
-};
-
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost, editBlogPost },
+  { addBlogPost, editBlogPost, deleteBlogPost },
   [{ title: 'Test post', content: 'Test content', id: 1 }]
 );
